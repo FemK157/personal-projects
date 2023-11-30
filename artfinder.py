@@ -1,4 +1,4 @@
-import streamlit as st
+mport streamlit as st
 import requests
 
 def welcomePage():
@@ -34,6 +34,9 @@ def checkTwo(artpieceNums):
         for item in data['artObject']['makers']:
             if item['name'] in artistList:
                 error = error and False
+        for item in data['artObject']['principalMakers']:
+            if item['name'] in artistList:
+                error = error and False
         if error == False:
             artpieceNumsC.append(artpieceNums[i])
             artpieceTitlesC.append(artpieceTitles[i])
@@ -51,6 +54,9 @@ def displayInfo(number):
         st.markdown("<img style='text-align: center; display: block; margin-left: auto; margin-right: auto; width: 75%' src='https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'>", unsafe_allow_html=True)
     artist = ""
     for item in data['artObject']['makers']:
+        if item['name'] in artistList:
+            artist = item['name']
+    for item in data['artObject']['principalMakers']:
         if item['name'] in artistList:
             artist = item['name']
     if artist == "":
@@ -110,6 +116,8 @@ if firstLetter != "" and pieceLetter != "":
     except:
         loadingGIF.empty()
         displayErrorMsg()
+        
+
 else:
     welcomePage()
 
